@@ -7,5 +7,6 @@
         public string TeamId { get; set; }
         public string ApiAppId { get; set; }
         public string BotAccessToken { get; set; }
+        public string AiToken { get; set; }
     }
 }

@@ -7,7 +7,6 @@ using System.Net;
 using SlackBot.UI.Dto.Event;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
-using SlackBot.App;
 using SlackBot.UI.Validator;
 using SlackBot.UI.Extensions;
 using SlackBot.UI.Settings;
@@ -27,9 +26,11 @@ namespace SlackBot.UI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get(string code)
+        public async Task<IActionResult> Get()
         {
-            return Ok(code);
+            var service = new AiService(_options.AiToken);
+            var dto = await service.Get<AiDto>("はじめまして");
+            return Ok(dto);
         }
 
         /// <summary>
@@ -42,9 +43,13 @@ namespace SlackBot.UI.Controllers
             if (!validator.Validate(dto))
                 return BadRequest();
 
-            var service = new ChatMessageService();
-            var text = service.GetBotText(dto.Event.User, SlackConsts.BotName, SlackConsts.BotMention);
-            await service.Post(_options.BotAccessToken, dto.Event.Channel, text);
+            var ai = await new AiService(_options.AiToken).Get<AiDto>("はじめまして");
+            if (ai.Status != "success")
+                return BadRequest();
+
+            var service = new ChatMessageService(_options.BotAccessToken);
+            var text = service.GetBotText(dto.Event.User, SlackConsts.BotMention, ai.Result);
+            await service.Post(dto.Event.Channel, text);
 
             _logger.LogDebug($"### {dto.Event.Text} {text}");
 

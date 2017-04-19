@@ -20,6 +20,9 @@ namespace SlackBot.UI.Extensions
             var binary = await content.ReadAsByteArrayAsync();
             var jsonText = Encoding.UTF8.GetString(binary, 0, binary.Length);
             return JsonConvert.DeserializeObject<T>(jsonText);
-        }
+
+            //var text = await content.ReadAsStringAsync();
+            //return JsonConvert.DeserializeObject<T>(text);
+        }   
     }
 }
