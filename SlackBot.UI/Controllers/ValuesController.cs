@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using SlackBot.UI.Dto;
 using System.Net;
-using SlackBot.UI.Dto.Event;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using SlackBot.UI.Validator;
 using SlackBot.UI.Extensions;
 using SlackBot.UI.Settings;
+using SlackBot.UI.Dto.Slack;
 
 namespace SlackBot.UI.Controllers
 {
@@ -28,8 +28,8 @@ namespace SlackBot.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var service = new AiService(_options.AiToken);
-            var dto = await service.Get<AiDto>("はじめまして");
+            var service = new DocomoService(_options.AiDocomoToken);
+            var dto = await service.Post("はじめまして");
             return Ok(dto);
         }
 
@@ -43,15 +43,18 @@ namespace SlackBot.UI.Controllers
             if (!validator.Validate(dto))
                 return BadRequest();
 
-            var ai = await new AiService(_options.AiToken).Get<AiDto>("はじめまして");
-            if (ai.Status != "success")
-                return BadRequest();
+            //var userLocal = new UserLocalService(_options.AiUserLocalToken);
+            //var userLocalText = await userLocal.Get(dto.Event.Text);
+            //if (userLocalText.Status != "success")
+            //    return BadRequest();
+            //_logger.LogDebug($"### {dto.Event.User} {WebUtility.HtmlDecode(dto.Event.User)}");
 
-            var service = new ChatMessageService(_options.BotAccessToken);
-            var text = service.GetBotText(dto.Event.User, SlackConsts.BotMention, ai.Result);
+            var docomo = new DocomoService(_options.AiDocomoToken);
+            var docomoText = await docomo.Post(dto.Event.Text);
+
+            var service = new SlackChatMessageService(_options.BotAccessToken);
+            var text = service.GetBotText(dto.Event.User, SlackConsts.BotMention, docomoText.Utt);
             await service.Post(dto.Event.Channel, text);
-
-            _logger.LogDebug($"### {dto.Event.Text} {text}");
 
             return Ok();
         }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SlackBot.UI.Dto
 {
-    public class AiDto
+    public class UserLocalDto
     {
         public string Status { get; set; }
         public string Result { get; set; }

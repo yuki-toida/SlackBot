@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace SlackBot.UI
 {
-    public class ChatMessageService
+    public class SlackChatMessageService
     {
         private const string Url = "https://slack.com/api/chat.postMessage";
         private readonly string _token;
 
-        public ChatMessageService(string token)
+        public SlackChatMessageService(string token)
         {
             _token = token;
         }

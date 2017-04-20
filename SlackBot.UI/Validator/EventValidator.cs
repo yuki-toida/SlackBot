@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SlackBot.UI.Settings;
+using SlackBot.UI.Dto.Slack;
 
 namespace SlackBot.UI.Validator
 {
