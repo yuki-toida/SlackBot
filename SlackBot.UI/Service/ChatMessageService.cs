@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace SlackBot.UI
+namespace SlackBot.UI.Service
 {
     public class ChatMessageService
     {
@@ -23,7 +22,8 @@ namespace SlackBot.UI
                 {
                     { "token", _token },
                     { "channel", channel },
-                    { "text", text }
+                    { "text", text },
+                    { "icon_url", "http://freeiconbox.com/icon/256/34429.png" }
                 });
 
                 return await client.PostAsync(Url, content);
