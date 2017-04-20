@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using SlackBot.UI.Validator;
 using SlackBot.UI.Extensions;
+using SlackBot.UI.Service;
 using SlackBot.UI.Settings;
 using SlackBot.UI.Dto.Slack;
 
