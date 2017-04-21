@@ -1,23 +1,23 @@
-﻿using SlackBot.UI.Extensions;
-using System.Linq;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using System;
 using SlackBot.UI.Dto;
+using SlackBot.UI.Dto.Docomo;
+using SlackBot.UI.Extensions;
 
-namespace SlackBot.UI
+namespace SlackBot.UI.Service
 {
     public static class DocomoContext
     {
         // 会話を継続する識別文字
-        public static string Value { get; set; }
+        public static string Id { get; set; }
     }
 
     public class DocomoService
     {
-        private const string Url = "https://api.apigw.smt.docomo.ne.jp/dialogue/v1/dialogue";
         private readonly string _token;
 
         public DocomoService(string token)
@@ -25,14 +25,19 @@ namespace SlackBot.UI
             _token = token;
         }
 
-        public async Task<DocomoDto> Post(string text)
+        private static T Shuffle<T>(IEnumerable<T> source)
+        {
+            return source.OrderBy(x => Guid.NewGuid()).First();
+        }
+
+        public async Task<DocomoDto> Dialog(string text)
         {
             using (var client = new HttpClient())
             {
                 var json = JsonConvert.SerializeObject(new
                 {
                     utt = text,
-                    context = DocomoContext.Value,
+                    context = DocomoContext.Id,
                     sex = Shuffle(new[] { "男", "女" }),
                     bloodtype = Shuffle(new[] { "A", "B", "O", "AB" }),
                     birthdateY = Shuffle(Enumerable.Range(1980, 35)),
@@ -43,20 +48,27 @@ namespace SlackBot.UI
                     place = "東京",
                 });
 
-                var buildUrl = $"{Url}?APIKEY={_token}";
-                var response = await client.PostAsync(buildUrl, new StringContent(json));
+                const string baseUrl = "https://api.apigw.smt.docomo.ne.jp/dialogue/v1/dialogue";
+                var url = $"{baseUrl}?APIKEY={_token}";
+                var response = await client.PostAsync(url, new StringContent(json));
                 var dto = await response.Content.ReadAsJsonAsync<DocomoDto>();
 
                 // 会話継続のためにセット
-                DocomoContext.Value = dto.Context;
+                DocomoContext.Id = dto.Context;
 
                 return dto;
             }
         }
 
-        private static T Shuffle<T>(IEnumerable<T> source)
+        public async Task<DocomoTrendDto> Trend(string text)
         {
-            return source.OrderBy(x => Guid.NewGuid()).First();
+            using (var client = new HttpClient())
+            {
+                const string baseUrl = "https://api.apigw.smt.docomo.ne.jp/webCuration/v3/contents";
+                var url = $"{baseUrl}?genreId=1&n=1&APIKEY={_token}";
+                var response = await client.GetAsync(url);
+                return await response.Content.ReadAsJsonAsync<DocomoTrendDto>();
+            }
         }
     }
 }

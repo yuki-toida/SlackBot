@@ -25,7 +25,7 @@ namespace SlackBot.UI.Validator
             if (dto == null)
                 return false;
 
-            if (!dto.Event.Text.StartsWith($"{SlackConsts.BotMention}"))
+            if (!dto.Event.Text.Contains($"{SlackConsts.BotMention}"))
                 return false;
 
             return dto.Token == _options.VerificationToken

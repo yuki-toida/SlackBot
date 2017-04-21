@@ -30,7 +30,7 @@ namespace SlackBot.UI.Controllers
         public async Task<IActionResult> Get()
         {
             var service = new DocomoService(_options.AiDocomoToken);
-            var dto = await service.Post("はじめまして");
+            var dto = await service.Trend("hoge");
             return Ok(dto);
         }
 
@@ -51,7 +51,7 @@ namespace SlackBot.UI.Controllers
             //_logger.LogDebug($"### {dto.Event.User} {WebUtility.HtmlDecode(dto.Event.User)}");
 
             var docomo = new DocomoService(_options.AiDocomoToken);
-            var docomoText = await docomo.Post(dto.Event.Text);
+            var docomoText = await docomo.Dialog(dto.Event.Text);
 
             var service = new SlackChatMessageService(_options.BotAccessToken);
             var text = service.GetBotText(dto.Event.User, SlackConsts.BotMention, docomoText.Utt);

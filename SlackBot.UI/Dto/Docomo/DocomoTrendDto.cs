@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SlackBot.UI.Dto
+﻿namespace SlackBot.UI.Dto.Docomo
 {
-    public class DocomoDto
+    public class DocomoTrendDto
     {
         public string Utt { get; set; }
         public string Yomi { get; set; }
