@@ -29,11 +29,5 @@ namespace SlackBot.UI.Service
                 return await client.PostAsync(Url, content);
             }
         }
-
-        public string GetBotText(string user, string botMention, string text)
-        {
-            //return $"<@{user}>".Replace(botMention, "");
-            return $"{text}".Replace(botMention, "");
-        }
     }
 }
