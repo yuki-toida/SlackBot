@@ -1,10 +1,10 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using SlackBot.UI.Extensions;
-using SlackBot.UI.Dto;
+using SlackBot.Dto;
+using SlackBot.Extensions;
 
-namespace SlackBot.UI.Service
+namespace SlackBot.Service
 {
     public class UserLocalService
     {

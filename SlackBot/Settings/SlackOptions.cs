@@ -1,4 +1,4 @@
-﻿namespace SlackBot.UI.Settings
+﻿namespace SlackBot.Settings
 {
     public class SlackOptions
     {

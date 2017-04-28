@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SlackBot.UI.Settings
+﻿namespace SlackBot.Settings
 {
     public static class SlackConsts
     {

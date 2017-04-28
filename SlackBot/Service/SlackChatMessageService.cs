@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace SlackBot.UI.Service
+namespace SlackBot.Service
 {
     public class SlackChatMessageService
     {

@@ -1,4 +1,4 @@
-﻿namespace SlackBot.UI.Dto.Slack
+﻿namespace SlackBot.Dto.Slack
 {
     public class MessageDto
     {

@@ -1,4 +1,4 @@
-﻿namespace SlackBot.UI.Dto.Docomo
+﻿namespace SlackBot.Dto.Docomo
 {
     public class DocomoTrendDto
     {

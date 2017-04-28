@@ -1,12 +1,7 @@
-﻿using SlackBot.UI.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using SlackBot.UI.Settings;
-using SlackBot.UI.Dto.Slack;
+﻿using SlackBot.Dto.Slack;
+using SlackBot.Settings;
 
-namespace SlackBot.UI.Validator
+namespace SlackBot.Validator
 {
     public class EventValidator
     {

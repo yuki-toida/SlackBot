@@ -1,18 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
-using SlackBot.UI.Dto;
-using System.Net;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
-using SlackBot.UI.Validator;
-using SlackBot.UI.Extensions;
-using SlackBot.UI.Service;
-using SlackBot.UI.Settings;
-using SlackBot.UI.Dto.Slack;
+using Microsoft.Extensions.Options;
+using SlackBot.Dto.Slack;
+using SlackBot.Service;
+using SlackBot.Settings;
+using SlackBot.Validator;
 
-namespace SlackBot.UI.Controllers
+namespace SlackBot.Controllers
 {
     [Route("api/[controller]/[action]")]
     public class ValuesController : Controller

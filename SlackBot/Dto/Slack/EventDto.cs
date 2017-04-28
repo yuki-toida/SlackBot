@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace SlackBot.UI.Dto.Slack
+namespace SlackBot.Dto.Slack
 {
     public class EventDto
     {
