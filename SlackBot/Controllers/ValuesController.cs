@@ -25,9 +25,11 @@ namespace SlackBot.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var service = new DocomoService(_options.AiDocomoToken);
-            var dto = await service.Trend("hoge");
-            return Ok(dto);
+            var service = new DocomoService(_options.AiDocomoToken, SlackConsts.BotMention);
+            var dto = await service.Trend();
+            var trend = dto.ArticleContents.Shuffle();
+            var response = $"{trend.ContentData.Title}\n{trend.ContentData.LinkUrl}\n{trend.ContentData.ImageUrl}";
+            return Ok(response);
         }
 
         /// <summary>
@@ -44,14 +46,15 @@ namespace SlackBot.Controllers
             //var userLocalText = await userLocal.Get(dto.Event.Text);
             //if (userLocalText.Status != "success")
             //    return BadRequest();
-            //_logger.LogDebug($"### {dto.Event.User} {WebUtility.HtmlDecode(dto.Event.User)}");
 
-            var docomo = new DocomoService(_options.AiDocomoToken);
-            var docomoText = await docomo.Dialog(dto.Event.Text);
+            var docomoService = new DocomoService(_options.AiDocomoToken, SlackConsts.BotMention);
+            var response = await docomoService.GetResponse(dto.Event.Text);
 
-            var service = new SlackChatMessageService(_options.BotAccessToken);
-            var text = service.GetBotText(dto.Event.User, SlackConsts.BotMention, docomoText.Utt);
-            await service.Post(dto.Event.Channel, text);
+            // POST Slack
+            await new SlackChatMessageService(_options.BotAccessToken).Post(dto.Event.Channel, response);
+
+            _logger.LogDebug($"### req {dto.Event.Text}");
+            _logger.LogDebug($"### res {response}");
 
             return Ok();
         }

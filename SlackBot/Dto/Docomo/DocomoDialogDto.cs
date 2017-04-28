@@ -1,6 +1,6 @@
 ﻿namespace SlackBot.Dto.Docomo
 {
-    public class DocomoDto
+    public class DocomoDialogDto
     {
         public string Utt { get; set; }
         public string Yomi { get; set; }
